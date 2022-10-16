@@ -5,7 +5,7 @@
   "manifest_version": 3,
   "action": {
     "default_popup": "landing_page.html",
-    "default_icon": "dds_icon_16.png"
+    "default_icon": "images/dds_icon_16.png"
   }
   "icons": {
     "16": "images/dds_icon_16.png",
