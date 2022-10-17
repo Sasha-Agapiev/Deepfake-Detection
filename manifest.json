@@ -4,7 +4,7 @@
   "version": "1.0",
   "manifest_version": 3,
   "action": {
-    "default_popup": "landing_page.html",
+    "default_popup": "html/landing_page.html",
     "default_icon": "images/dds_icon_16.png"
   }
   "icons": {
