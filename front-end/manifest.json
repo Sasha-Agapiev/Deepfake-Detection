@@ -20,7 +20,9 @@
     }
   ],
   "permissions" : [
-    "fileBrowserHandler"
+    "fileBrowserHandler", 
+    "storage", 
+    "http://localhost:3000/"
   ],
   "icons": {
     "16": "images/dds_icon_16.png",
