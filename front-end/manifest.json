@@ -7,11 +7,6 @@
     "default_popup": "html/landing_page.html",
     "default_icon": "images/dds_icon_16.png"
   },
-  "permissions" : [
-    "fileBrowserHandler", 
-    "storage", 
-    "http://localhost:3000/"
-  ],
   "icons": {
     "16": "images/dds_icon_16.png",
     "32": "images/dds_icon_32.png",
