@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DDS Sign-In</title>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+	    overflow: hidden;
+            background-color: #900c94;
+            font-family: helvetica;
+            color: white;
+        }
+
+        form {
+            align-items: center;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            box-sizing: border-box;
+            background-color: #900c94;
+            flex-wrap: wrap;
+        }
+
+        input {
+            margin: 10px;
+            font-size: 120%;
+            width: 75%;
+            height: 5%;
+            padding: 10px;
+            border: none;
+            font-family: helvetica;
+            transition-duration: 0.3s;
+        }
+
+        input:focus {
+            transform: scale(1.2);
+        }
+
+        button {
+            font-size: 100%;
+            background-color: #f5c2e0;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+            color: black;
+            font-family: helvetica;
+            font-weight: bold;
+            transition-duration: 0.3s;
+            padding: 10px;
+            margin-top: 1%;
+        }
+
+        .white_placeholder::placeholder {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <center><h2> Please fill out the following fields to create your new DDS account. </h2></center>
+	<center><h4><i> All of your personal information will be kept secure using the latest encryption and database maintenance practices. </i></h4></center>
+	<input type="firstname" name="firstname" id="firstname" placeholder="Your First Name">
+	<input type="lastname" name="lastname" id="lastname" placeholder="Your Last Name">
+        <input type="email" name="email" id="email" placeholder="Your Email">
+        <input type="password" name="password" id="password" placeholder="Your Password">
+	<input type="password" name="password" id="confirmpassword" placeholder="Confirm Password">
+    <button><a style="text-decoration:none;color:black" href="signin-popup.html">Return to Sign-In Page</a></button>
+	<button><a style="text-decoration:none;color:black" href="homepage.html">Register New Account</a></button>
+    </form>
+<script src="./popup-sign-up-script.js"></script>
+</body>
+
+</html>

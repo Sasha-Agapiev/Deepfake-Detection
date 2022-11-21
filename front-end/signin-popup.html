@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DDS Sign-In</title>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+	    background-color: #900c94;
+	    overflow: hidden;
+        }
+
+        form {
+            align-items: center;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            box-sizing: border-box;
+            background-color: #900c94;
+            flex-wrap: wrap;
+        }
+
+        input {
+            margin: 10px;
+            font-size: 120%;
+            width: 75%;
+            height: 5%;
+            padding: 10px;
+            border: none;
+            font-family: helvetica;
+            transition-duration: 0.3s;
+        }
+
+        input:focus {
+            transform: scale(1.2);
+        }
+
+        button {
+            font-size: 100%;
+            background-color: #f5c2e0;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+            color: black;
+            font-family: helvetica;
+            font-weight: bold;
+            transition-duration: 0.3s;
+            padding: 10px;
+            margin-top: 1%;
+        }
+
+        .white_placeholder::placeholder {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <form>
+	<center><img src="dds_homepage.png" height="250" width="500"></center>
+        <input type="email" name="email" id="email" placeholder="Email">
+        <input type="password" name="password" id="password" placeholder="Password">
+        <button>Sign In</button>
+        <button><a style="text-decoration:none;color:black" href="signup-popup.html">Sign Up</a></button>
+    </form>
+<script src="./popup-sign-in-script.js"></script>
+</body>
+
+</html>
