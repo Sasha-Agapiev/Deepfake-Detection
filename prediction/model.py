@@ -6,7 +6,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.models as models
 
-from ML_ALGO.utils import DEVICE
+from . import utils 
 
 """
 
