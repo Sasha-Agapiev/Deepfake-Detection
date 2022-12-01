@@ -13,7 +13,6 @@ import os
 import glob
 import argparse
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument('path', type=str, help="filepath of image")
 args = parser.parse_args()
@@ -36,7 +35,7 @@ def extractFaces(
     faces = FACE_CASCADE.detectMultiScale(image_grey,scaleFactor=1.16,minNeighbors=5,minSize=(25,25),flags=0)
 
     for i, (x,y,w,h) in enumerate(faces):
-        sub_img=image[y-30:y+h+30,x-30:x+w+30]
+        sub_img=image[y-15:y+h+15,x-15:x+w+15]
         os.chdir("Extracted")
         cv2.imwrite(str(i) + ".jpg",sub_img)
         os.chdir("../")

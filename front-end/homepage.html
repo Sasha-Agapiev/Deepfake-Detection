@@ -39,7 +39,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Helvetica", sans-serif}
 
   <script type="text/javascript">
     $(document).ready(function(){
-        $("#Upload_Image").on('propertychange change click',function(){
+        $("#Upload_Image").on('propertychange change',function(){
           encodeImageFileAsURL(this, function(content) {
               var data = {};
               data.picture = content; 

@@ -94,11 +94,6 @@ letters = string.ascii_lowercase
 def predict(request):
     if request.method == 'POST':
         
-        # Flush temp/
-        files = glob.glob("temp/*")
-        for f in files:
-            os.remove(f)
-        
         json_data = json.loads(request.body)
 
         imagedata = json_data["picture"]
@@ -119,6 +114,11 @@ def predict(request):
         p = pred(filename)
 
         prediction = {"prediction" : p}
+
+        # Flush temp/
+        files = glob.glob("temp/*")
+        for f in files:
+            os.remove(f)
 
         return JsonResponse(prediction)
 
