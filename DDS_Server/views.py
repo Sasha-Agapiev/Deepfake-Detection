@@ -8,7 +8,9 @@ import base64
 import re
 import string
 import random
-from ML_ALGO.predict import predict as pred
+import glob
+import os
+from prediction.predict import predict as pred
 def decode_base64(data, altchars='+/'):
     """Decode base64, padding being optional.
 
@@ -92,16 +94,29 @@ letters = string.ascii_lowercase
 def predict(request):
     if request.method == 'POST':
         
-        json_data = json.loads(request.body)
+        # Flush temp/
+        files = glob.glob("temp/*")
+        for f in files:
+            os.remove(f)
         
-        imagedata = decode_base64(json_data["picture"])
+        json_data = json.loads(request.body)
 
-        filename = ''.join(random.choice(letters) for i in range(10))
+        imagedata = json_data["picture"]
+        filetype, imagedata = imagedata.split(";base64,")
+        filetype = filetype.split("/")[1]
+        
+        imagedata = decode_base64(imagedata)
 
-        with open('temp/%s.png' % filename, 'wb') as f:
+        if filetype == "png":
+            filename = 'temp/'+''.join(random.choice(letters) for i in range(10))+".png"
+        else: # if filetype == "jpeg"
+            filename = 'temp/'+''.join(random.choice(letters) for i in range(10))+".jpg"
+
+
+        with open(filename, 'wb') as f:
             f.write(imagedata)
 
-        p = pred('temp/%s.png' % filename)
+        p = pred(filename)
 
         prediction = {"prediction" : p}
 

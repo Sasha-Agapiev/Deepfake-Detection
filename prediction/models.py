@@ -4,9 +4,9 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torchvision.models as models
+import torchvision.models as tvmodels
 
-from ML_ALGO.utils import DEVICE
+from prediction.utils import DEVICE
 
 """
 
@@ -18,7 +18,7 @@ class FeatureExtractor(nn.Module):
     def __init__(self):
         super(FeatureExtractor, self).__init__()
 
-        self.model = models.densenet169(weights=models.DenseNet169_Weights.DEFAULT)
+        self.model = tvmodels.densenet169(weights=tvmodels.DenseNet169_Weights.DEFAULT)
         self.feat_extractor = nn.Sequential(*(list(self.model.children())[:-1]))
         
         self.flatten = nn.Flatten()

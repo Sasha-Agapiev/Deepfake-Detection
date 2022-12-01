@@ -6,11 +6,11 @@ import torch
 import torch.nn as nn
 import torchvision
 import torchvision.transforms as transforms
-from ML_ALGO.models import FeatureExtractor, Classifier
-from ML_ALGO.utils import DEVICE
+from prediction.models import FeatureExtractor, Classifier
+from prediction.utils import DEVICE
 
 import os
-import sys
+import glob
 import argparse
 
 
@@ -24,7 +24,7 @@ Face Extractor code from JeeveshN/Face-Detect
 
 """
 
-CASCADE="ML_ALGO/Face_cascade.xml"
+CASCADE="prediction/Face_cascade.xml"
 FACE_CASCADE=cv2.CascadeClassifier(CASCADE)
 
 def extractFaces(
@@ -40,9 +40,8 @@ def extractFaces(
         os.chdir("Extracted")
         cv2.imwrite(str(i) + ".jpg",sub_img)
         os.chdir("../")
-        #cv2.rectangle(image,(x,y),(x+w,y+h),(255, 255,0),2)
 
-    return len(faces) == 0
+    return len(faces)
 
 def predict(
     impath: str,
@@ -58,20 +57,27 @@ def predict(
     Returns:
     --------
     prediction
-        float   : Float value between 0-1 indicating confidence of deepfake detection
+        string   : If successful, returns percent confidence of deepfake detected. Otherwise, reason for failure
     """
     # Create 'Extracted' dir
     if not "Extracted" in os.listdir("."):
         os.mkdir("Extracted")
+    else:
+        # If it already exists, delete all its contents
+        files = glob.glob("Extracted/*")
+        for f in files:
+            os.remove(f)
 
     # Extract face(s)
-    # For now, only consider single face extracted
-    nofaces  = extractFaces(impath)
-    if nofaces: return 0
-        
-    ext_impath = 'Extracted/0.jpg'
+    num_subjects  = extractFaces(impath)
+    if num_subjects == 0:
+        return "Failed to identify subject in image."
 
-    img = Image.open(ext_impath)
+    images = []
+    subjects = glob.glob("Extracted/*")
+
+    for subject in subjects:
+        images.append(Image.open(subject))
 
     # Preprocess image
     preprocess = transforms.Compose([
@@ -81,28 +87,32 @@ def predict(
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
 
-    img = preprocess(img)
-
-    torchvision.transforms.ToPILImage()(img).save("Extracted/extracted_process.jpg")
+    for i in range(len(images)):
+        images[i] = preprocess(images[i])
     
     # Prepare models
     model = Classifier().to(DEVICE)
     feat = FeatureExtractor().to(DEVICE)
 
-    model.load_state_dict(torch.load("ML_ALGO/dense_weights.pth", map_location ='cpu'))
+    model.load_state_dict(torch.load("prediction/dense_weights.pth", map_location ='cpu'))
 
     model.eval()
     feat.eval()
 
+    results = []
     with torch.no_grad():
-        img = img.to(DEVICE)
-        img = img.unsqueeze(0)
+        for img in images:
+            img = img.to(DEVICE)
+            img = img.unsqueeze(0)
 
-        features = feat(img)
-        pred = model(features)
+            features = feat(img)
+            pred = model(features)
 
-        confidence = pred.item()
-
+            results.append(pred.item())
+    
+    confidence = max(results)
+    confidence = "%.2f" % (confidence * 100) + "%"
+    
     return confidence
 
 def main():
