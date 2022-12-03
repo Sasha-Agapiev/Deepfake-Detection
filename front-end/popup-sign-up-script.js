@@ -33,32 +33,36 @@ button.addEventListener('mouseleave', () => {
 
 document.querySelector('form').addEventListener('submit', event => {
     event.preventDefault();
-    url = 'http://127.0.0.1:8000/DDS_Server/login'
+    url = 'http://127.0.0.1:8000/DDS_Server/signup'
 
+    const fname = document.querySelector("#firstname").value;
+    const lname = document.querySelector("#lastname").value;
     const email = document.querySelector('#email').value;
     const pass = document.querySelector('#password').value;
+    const confirmpass = document.querySelector("#confirmpassword").value;
 
-    var data = {};
-    data.email = email;
-    data.password = pass;
-    console.log(email)
-    console.log(pass)
+    if (email && pass && fname && lname && confirmpass) {
+        if (pass != confirmpass) {
+            document.getElementById('warning').innerHTML = "Passwords do not match!";
+        }
+        else {
+            var data = {};
+            data.firstname = fname;
+            data.lastname = lname;
+            data.email = email;
+            data.password = pass;
 
-    if (email && pass) {
-        $.post(url,JSON.stringify(data),
-        function(data, textStatus, jqXHR)
-        {
-            if (data != "FAIL") {
-                window.location.replace('./homepage.html');
-            }
-        })
-        
+            console.log(data)
+
+            $.post(url,JSON.stringify(data),
+            function(data, textStatus, jqXHR)
+            {
+                if (data != "FAIL") {
+                    window.location.replace('./signin-popup.html');
+                }
+            })
+        }
     } else {
-        document.querySelector('#email').placeholder = "Enter an email.";
-        document.querySelector('#password').placeholder = "Enter a password.";
-        document.querySelector('#email').style.backgroundColor = 'red';
-        document.querySelector('#password').style.backgroundColor = 'red';
-        document.querySelector('#email').classList.add('white_placeholder');
-        document.querySelector('#password').classList.add('white_placeholder');
+        document.getElementById('warning').innerHTML = "Please fill out every field!";
     }
 });

@@ -33,7 +33,11 @@ def login(request):
 
         email = data["email"]
         password=  data["password"]
-        ret = DDS_SQL.login(email, password)
+        print(email)
+        print(password)
+        #ret = DDS_SQL.login(email, password)
+
+        return HttpResponse("hi")
 
         if ret == None:
             return HttpResponse("FAIL")
@@ -51,8 +55,10 @@ def signup(request):
         email = json_data["email"]
         password=  json_data["password"]
 
+        print(firstname)
+
         try:
-            DDS_SQL.add_user(firstname, lastname, email, password, "test", "test", "123")
+            #DDS_SQL.add_user(firstname, lastname, email, password, "test", "test", "123")
             return HttpResponse("OK")
         except:
             return HttpResponse("FAIL")

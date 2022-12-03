@@ -61,18 +61,19 @@
             color: white;
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <form>
         <center><h2> Please fill out the following fields to create your new DDS account. </h2></center>
 	<center><h4><i> All of your personal information will be kept secure using the latest encryption and database maintenance practices. </i></h4></center>
+    <p id = "warning">  </p>
 	<input type="firstname" name="firstname" id="firstname" placeholder="Your First Name">
 	<input type="lastname" name="lastname" id="lastname" placeholder="Your Last Name">
-        <input type="email" name="email" id="email" placeholder="Your Email">
-        <input type="password" name="password" id="password" placeholder="Your Password">
+    <input type="email" name="email" id="email" placeholder="Your Email">
+    <input type="password" name="password" id="password" placeholder="Your Password">
 	<input type="password" name="password" id="confirmpassword" placeholder="Confirm Password">
-    <button><a style="text-decoration:none;color:black" href="signin-popup.html">Return to Sign-In Page</a></button>
-	<button><a style="text-decoration:none;color:black" href="homepage.html">Register New Account</a></button>
+	<button><a style="text-decoration:none;color:black">Register New Account</a></button>
     </form>
 <script src="./popup-sign-up-script.js"></script>
 </body>
