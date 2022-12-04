@@ -10,53 +10,72 @@ def login(email, password):
     ret = cursor.fetchone()
     return ret 
 
-def url_check(url):
-    call = 'Select flagged From "DDSystem"."Website" Where url = %s'
-    data = [url]
+def domainname_check(domainname):
+    call = 'Select flagged From "DDSystem"."Website" Where domainname = %s'
+    data = [domainname]
     cursor.execute(call, data)
     connection.commit()
     ret = cursor.fetchone()
     return ret 
 
 
-def add_user(firstname, lastname, email, password, city, state, zipcode):
-    call = 'call "DDSystem".add_user(%s, %s, %s, %s, %s, %s, %s, %s, %s)'
-    data = [5, firstname, lastname, email, password, city, state, zipcode, False]
+def add_user(userid, firstname, lastname, email, password):
+    call = 'call "DDSystem".add_user(%s, %s, %s, %s, %s)'
+    data = [userid, firstname, lastname, email, password]
     cursor.execute(call, data)
     connection.commit()
 
-def add_website(url, name):
-    call = 'call "DDSystem".add_website(%s, %s)'
-    data = [url, name]
+def exists_website(domainname):
+    call = 'Select domainname From "DDSystem"."Website" Where domainname = %s'
+    data = [domainname]
+    cursor.execute(call, data)
+    connection.commit()
+    return cursor.fetchone()
+
+def add_website(domainname):
+    call = 'call "DDSystem".add_website(%s)'
+    data = [domainname]
     cursor.execute(call, data)
     connection.commit()
 
-def add_contains(pic, prediction, url):
-    call = 'call "DDSystem".add_contains(%s, %s, %s)'
-    data = [pic, prediction, url]
-    cursor.execute(call, data)
-    connection.commit()
-
-def check_reports(user_id):
+def check_reports(userid):
     call = 'call "DDSystem".check_reports(%s)'
-    data = [user_id]
+    data = [userid]
     x = cursor.execute(call, data)
     connection.commit()
     return cursor.fetchone()
 
-
-def check_subscription(user_id):
+def check_subscription(userid):
     call = 'call "DDSystem".check_subscription(%s)'
-    data = [user_id]
+    data = [userid]
     x = cursor.execute(call, data)
     connection.commit()
     return cursor.fetchone()
 
-def add_reports(user_id, url, a_r):
-    call = 'call "DDSystem".add_reports(%s, %s, %s)'
-    data = [user_id, url, a_r]
+def check_predictions(userid):
+    call = 'Select predictions From "DDSystem"."User" Where userid = %s'
+    data = [userid]
     x = cursor.execute(call, data)
     connection.commit()
     return cursor.fetchone()
+
+def add_reports(userid, domainname, a_r):
+    call = 'call "DDSystem".add_reports(%s, %s, %s)'
+    data = [userid, domainname, a_r]
+    x = cursor.execute(call, data)
+    connection.commit()
+    return cursor.fetchone()
+
+def update_predictions(userid):
+    call = 'Update "DDSystem"."User" Set predictions = predictions - 1 Where %s = uid '
+    data = [userid]
+    x = cursor.execute(call, data)
+    connection.commit()
+
+def revoke_report(userid, domainname):
+    call = 'call "DDSystem".revoke_report(%s, %s)'
+    data = [userid, domainname]
+    x = cursor.execute(call, data)
+    connection.commit()
 
 

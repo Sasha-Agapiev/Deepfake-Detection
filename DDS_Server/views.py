@@ -11,6 +11,8 @@ import random
 import glob
 import os
 from prediction.predict import predict as pred
+import uuid
+
 def decode_base64(data, altchars='+/'):
     """Decode base64, padding being optional.
 
@@ -33,16 +35,13 @@ def login(request):
 
         email = data["email"]
         password=  data["password"]
-        print(email)
-        print(password)
+
         #ret = DDS_SQL.login(email, password)
-
-        return HttpResponse("hi")
-
+        ret = 1
         if ret == None:
             return HttpResponse("FAIL")
         else:
-            return JsonResponse({"user": ret[0]})
+            return JsonResponse({"userid": 1234})
         
 
 @csrf_exempt
@@ -54,23 +53,23 @@ def signup(request):
         lastname = json_data["lastname"]
         email = json_data["email"]
         password=  json_data["password"]
-
-        print(firstname)
+        #generate unique userid
+        uid = uuid.uuid4()
 
         try:
-            #DDS_SQL.add_user(firstname, lastname, email, password, "test", "test", "123")
+            #DDS_SQL.add_user(uid, firstname, lastname, email, password)
             return HttpResponse("OK")
         except:
             return HttpResponse("FAIL")
 
 @csrf_exempt
-def url_check(request):
+def domainname_check(request):
     if request.method == 'POST':
         json_data = json.loads(request.body)
 
-        url = json_data["url"]
-        ret = DDS_SQL.url_check(url)
-        #url does not exist in database
+        domainname = json_data["domainname"]
+        ret = DDS_SQL.domainname_check(domainname)
+        #domainname does not exist in database
         if ret == None:
             return HttpResponse("FAIL")
         else:
@@ -85,14 +84,22 @@ def report(request):
     if request.method == 'POST':
         json_data = json.loads(request.body)
 
-        type_report = json_data["type"]
-        uid = json_data["uid"]
-        url = json_data["url"]
+        type_report = json_data["type"] #flag or false flag
+        userid = json_data["userid"]
+        domainname = json_data["domainname"]
+        exists = DDS_SQL.exists_website(domainname)
+        if exists == None:
+            DDS_SQL.add_website(domainname)
+        #flag website or false flag report 
         try:
-            DDS_SQL.add_reports(uid, url, 1 if type_report == "add" else -1)
+            if type_report == "flag" or type_report == "false_flag":
+                DDS_SQL.add_reports(userid, domainname, 1 if type_report == "flag" else -1)
+            else:
+                DDS_SQL.revoke_report(userid, domainname)
             return HttpResponse("OK")
         except:
             return HttpResponse("FAIL")
+
 
 letters = string.ascii_lowercase
 
@@ -103,6 +110,16 @@ def predict(request):
         json_data = json.loads(request.body)
 
         imagedata = json_data["picture"]
+        userid = json_data["userid"]
+
+        """
+        subscription = DDS.SQL.check_subscription(userid)
+        if subscription == 0:
+            num_predictions = DDS.SQL.check_predictions(userid)
+            if num_predictions == 0:
+                return HttpResponse("No predictions left")
+        """
+        
         filetype, imagedata = imagedata.split(";base64,")
         filetype = filetype.split("/")[1]
         
@@ -126,25 +143,9 @@ def predict(request):
         for f in files:
             os.remove(f)
 
+        #DDS_SQL.update_predictions(userid)
+
         return JsonResponse(prediction)
 
 
-@csrf_exempt
-def add_website(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-
-        url = data["url"]
-        name=  data["name"]
-        ret = DDS_SQL.add_website(url, name)
-
-@csrf_exempt
-def add_contains(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-
-        pic = data["pic"]
-        prediction=  data["prediction"]
-        url = data["url"]
-        ret = DDS_SQL.add_contains(pic, prediction, url)
 

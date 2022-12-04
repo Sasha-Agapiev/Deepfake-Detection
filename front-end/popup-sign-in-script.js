@@ -49,6 +49,7 @@ document.querySelector('form').addEventListener('submit', event => {
         function(data, textStatus, jqXHR)
         {
             if (data != "FAIL") {
+                sessionStorage.setItem('userID', data.userid);
                 window.location.replace('./homepage.html');
             }
         })
