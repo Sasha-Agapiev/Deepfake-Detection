@@ -11,6 +11,6 @@
    },
    "action": {
    "default_title": "Deepfake Detection System",
-   "default_popup": "signin-popup.html"
+   "default_popup": "homepage.html"
    }
 }

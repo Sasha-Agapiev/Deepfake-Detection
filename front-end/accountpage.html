@@ -52,8 +52,12 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Helvetica", sans-serif}
       <br><h5 style="color:#f5c2e0"><i><b> With website warnings turned on, you will get a notification whenever you try to access a website that has been flagged for deepfake content. </b></i></h5>
       <br>
       <h5 style="color:blueviolet"> <b>Subscription Status:</b></h5><h5> [DAYS REMAINING / YOU ARE CURRENTLY NOT SUBSCRIBED] </h5>
-      <input type="button" style="background-color:blueviolet; border-radius:5px; border-color: blueviolet; color:white" id="cancel_sub" value="Cancel Subscription"></input> 
+      <input type="button" style="background-color:blueviolet; border-radius:5px; border-color: blueviolet; color:white" id="cancel_sub" value="Cancel Subscription"></input>      <p id="cancel_sub_status"></p>
+      <label id="areyousure" style="visibility: hidden">Are you sure you want to cancel your DDS subscription?</label>
+      <button id="Cancel_Sub_Button" style="display: none; background-color:blueviolet; border-radius:5px; border-color: blueviolet; color:white"> Yes </button>
+      <button id="Keep_Sub_Button" style="display: none; background-color:blueviolet; border-radius:5px; border-color: blueviolet; color:white"> No </button>
       <script src="accountpage.js"></script>
+      <br>
       <button style="background-color:blueviolet; border-radius:5px; border-color: blueviolet; color:white"><a href="subscribe.html" style="text-decoration: none;"> Purchase/Renew Subscription </a></button>
       <br>
       <h5 style="color:#f5c2e0"><i><b> With a $2.99/month subscription plan, you can unlock premium account features 

@@ -54,7 +54,15 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Helvetica", sans-serif}
   <label for="Upload_Image" class="w3-button w3-white w3-padding-large w3-large w3-margin-top">Upload An Image</label>
   <script src="homepage.js"></script>
   <br>
-  <button class="w3-button w3-white w3-padding-large w3-large w3-margin-top">Report a Website</button>
+  <button id="reportAWebsite" class="w3-button w3-white w3-padding-large w3-large w3-margin-top">Report a Website</button>
+  <script src="homepage.js"></script>
+  <br>
+  <label id = "report_display" style="visibility: hidden"> Website successfully reported. </label>
+  <form  id="reportForm" method="post" action="" style="display: none" ><br><br>
+    <input type="url" id="reported_website" pattern="https://.*" placeholder="https://example.com">
+  </form>
+  <button id="submitReport" class="w3-button w3-white w3-padding-large w3-large w3-margin-top" style="display: none">Submit</button>
+  <script src="homepage.js"></script>
 </header>
 
 <!-- First Grid -->
@@ -73,14 +81,38 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Helvetica", sans-serif}
       image in a matter of seconds. Our backend technology uses the latest
       machine learning strategies to calculate the likelihood of a picture being a deepfake, so that you can continue to 
       browse in peace without the looming fear of getting misled. <br>
-      <br> To use our system, simply create or sign-in to your account with your email. Then, once directed to the user page, upload 
-      any .png or .jpg image using the "Upload Image" button. Then, wait a few seconds to get a prediction of whether or not
-      this image is a deepfake. If you find a website that is sharing deepfake content and would like to report it to our database, 
-      click the "Report Website" button. </h5>
+      </h5>
     </div>
-
     <div class="w3-third w3-center">
       <img src="dds_icon.png" width="150" height="150">
+    </div>
+  </div>
+</div>
+
+<!-- Second Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1><b>How To Use DDS</b></h1>
+      <h5 class="w3-padding-32"> To use our system, you should first create or sign-in to your account using your email credentials. 
+      Onced signed in, you should be directed to the home page (the page you're currently on) which gives you access to two main tools: 
+      "Upload an Image" and "Report a Website". <br> <br> With the upload image button, you can upload any .png or .jpg file from your computer 
+      and get a deepfake likelihood estimation within a matter of seconds. This estimation is a percentage which tells you the percentage
+      likelihood of your image being a deepfake, so a low percentage means your image is most likely authentic. <br> <br>
+      With the report website button, you will be directed to a form that lets you enter the domain URL of any website that you believe
+      is distributing deepfake content. If enough people report the same website, it will be registered as harmful in our database and 
+      you will receive a popup warning every time you visit this website in the future (only if you have website warnings turned on in your
+      account settings). If you believe that a website has been flagged incorrectly, you can submit a request to have its flagged status 
+      removed by clicking the button below and our team will take a look at the situation.</h5>
+      <button id="requestReportRemove"><b>Request Website Flag Removal</b></button>
+      <script src="homepage.js"></script>
+      <label id = "remove_flag_display" style="visibility: hidden"> Website flag removal request successfully submitted. </label>
+      <form  id="removeReportForm" method="post" action="" style="display: none" ><br><br>
+        <input type="url" id="removeReportWebsite" pattern="https://.*" placeholder="https://example.com">
+      </form>
+      <br>
+      <button id="submitRemoveReport" style="display: none">Submit Report Removal Request</button>
+      <script src="homepage.js"></script>
     </div>
   </div>
 </div>
