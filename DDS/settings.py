@@ -81,25 +81,18 @@ WSGI_APPLICATION = 'DDS.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase',
-    }
-}
 
-"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'DDS',
         'USER': 'postgres',
-        'PASSWORD': "@/sa024dsa/'d",
-        'HOST': 'localhost',
+        'PASSWORD': "P2L609j65J",
+        'HOST': 'dds.cvlshalsgzay.us-east-1.rds.amazonaws.com',
         'POST': '5432',
     }
 }
-"""
+
 
 
 

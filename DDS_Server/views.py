@@ -12,6 +12,7 @@ import glob
 import os
 from prediction.predict import predict as pred
 import uuid
+import bcrypt
 
 def decode_base64(data, altchars='+/'):
     """Decode base64, padding being optional.
@@ -31,17 +32,23 @@ import os
 @csrf_exempt
 def login(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
+        json_data = json.loads(request.body)
 
-        email = data["email"]
-        password=  data["password"]
+        email = json_data["email"]
+        password=  json_data["password"].encode("utf-8")
 
-        #ret = DDS_SQL.login(email, password)
-        ret = 1
+        ret = DDS_SQL.login(email)
+        print(ret)
         if ret == None:
-            return HttpResponse("FAIL")
+            return HttpResponse("No matching users")
+
+        userid = ret[0]
+        hashedpassword = ret[1].encode("utf-8")
+
+        if bcrypt.checkpw(password, hashedpassword):
+            return JsonResponse({"userid" : userid})
         else:
-            return JsonResponse({"userid": 1234})
+            return HttpResponse("Username or Password is wrong")
         
 
 @csrf_exempt
@@ -53,13 +60,16 @@ def signup(request):
         lastname = json_data["lastname"]
         email = json_data["email"]
         password=  json_data["password"]
-        #generate unique userid
-        uid = uuid.uuid4()
 
+        #hash password
+        hashed_password = bcrypt.hashpw(bytes(password, 'utf-8'), bcrypt.gensalt()).decode()
+
+        #generate unique userid
+        uid = str(uuid.uuid4())
         try:
-            #DDS_SQL.add_user(uid, firstname, lastname, email, password)
+            ret = DDS_SQL.add_user(uid, firstname, lastname, email, hashed_password)
             return HttpResponse("OK")
-        except:
+        except Exception as err:
             return HttpResponse("FAIL")
 
 @csrf_exempt
@@ -74,7 +84,7 @@ def domainname_check(request):
             return HttpResponse("FAIL")
         else:
             #server if flagged
-            if ret[0] == 1:
+            if ret[0] == True:
                 return HttpResponse("TRUE")
             else:
                 return HttpResponse("FALSE")
@@ -87,6 +97,9 @@ def report(request):
         type_report = json_data["type"] #flag or false flag
         userid = json_data["userid"]
         domainname = json_data["domainname"]
+        
+        print("printing from views %s" % domainname)
+
         exists = DDS_SQL.exists_website(domainname)
         if exists == None:
             DDS_SQL.add_website(domainname)
@@ -112,13 +125,11 @@ def predict(request):
         imagedata = json_data["picture"]
         userid = json_data["userid"]
 
-        """
-        subscription = DDS.SQL.check_subscription(userid)
-        if subscription == 0:
-            num_predictions = DDS.SQL.check_predictions(userid)
-            if num_predictions == 0:
-                return HttpResponse("No predictions left")
-        """
+        
+        (subscribed, num_predictions) = DDS_SQL.check_subscription_and_predictions(userid)
+        if not subscribed and num_predictions == 0:
+            return JsonResponse({"prediction" : "No predictions left"})
+        
         
         filetype, imagedata = imagedata.split(";base64,")
         filetype = filetype.split("/")[1]
@@ -142,9 +153,10 @@ def predict(request):
         files = glob.glob("temp/*")
         for f in files:
             os.remove(f)
-
-        #DDS_SQL.update_predictions(userid)
-
+        
+        if not subscribed:
+            DDS_SQL.update_predictions(userid)
+        
         return JsonResponse(prediction)
 
 

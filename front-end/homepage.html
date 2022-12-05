@@ -52,13 +52,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Helvetica", sans-serif}
 
 
   <label for="Upload_Image" class="w3-button w3-white w3-padding-large w3-large w3-margin-top">Upload An Image</label>
-  <script src="homepage.js"></script>
   <br>
   <button id="reportAWebsite" class="w3-button w3-white w3-padding-large w3-large w3-margin-top">Report a Website</button>
-  <script src="homepage.js"></script>
   <br>
-  <label id = "report_display" style="visibility: hidden"> Website successfully reported. </label>
-  <form  id="reportForm" method="post" action="" style="display: none" ><br><br>
+  <div> <label id = "report_display" style="visibility: hidden"> Website successfully reported. </label> </div>
+  <form  id="reportForm" style="display: none" ><br><br>
     <input type="url" id="reported_website" pattern="https://.*" placeholder="https://example.com">
   </form>
   <button id="submitReport" class="w3-button w3-white w3-padding-large w3-large w3-margin-top" style="display: none">Submit</button>
@@ -105,9 +103,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Helvetica", sans-serif}
       account settings). If you believe that a website has been flagged incorrectly, you can submit a request to have its flagged status 
       removed by clicking the button below and our team will take a look at the situation.</h5>
       <button id="requestReportRemove"><b>Request Website Flag Removal</b></button>
-      <script src="homepage.js"></script>
       <label id = "remove_flag_display" style="visibility: hidden"> Website flag removal request successfully submitted. </label>
-      <form  id="removeReportForm" method="post" action="" style="display: none" ><br><br>
+      <form  id="removeReportForm"  style="display: none" ><br><br>
         <input type="url" id="removeReportWebsite" pattern="https://.*" placeholder="https://example.com">
       </form>
       <br>

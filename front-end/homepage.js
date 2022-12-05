@@ -53,8 +53,11 @@ function sendReportData(){
     document.getElementById('reportForm').style.display = 'none';
     document.getElementById('submitReport').style.display = 'none';
     var data = {};
-    data.ReportedWebsite = document.getElementById('reported_website').value;
-    $.post('http://127.0.0.1:8000/DDS_Server/predict', JSON.stringify(data), 
+    data.type = "flag";
+    data.userid = sessionStorage.getItem('userID');
+    data.domainname = document.getElementById('reported_website').value;
+    console.log(data.domainname);
+    $.post('http://127.0.0.1:8000/DDS_Server/report', JSON.stringify(data), 
     function(data){})
 }
 
@@ -64,8 +67,11 @@ function sendRemoveFlagData(){
     document.getElementById('requestReportRemove').style.display = '';
     document.getElementById('remove_flag_display').style.visibility = 'visible';
     var data = {};
-    data.RemoveFlagRequestWebsite = document.getElementById('removeReportWebsite').value;
-    $.post('http://127.0.0.1:8000/DDS_Server/predict', JSON.stringify(data), 
+    data.type = "false_flag";
+    data.userid = sessionStorage.getItem('userID');
+    data.domainname = document.getElementById('removeReportWebsite').value;
+    console.log("hi2");
+    $.post('http://127.0.0.1:8000/DDS_Server/report', JSON.stringify(data), 
     function(data){})
 }
 
