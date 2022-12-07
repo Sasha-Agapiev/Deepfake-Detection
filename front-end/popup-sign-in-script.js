@@ -45,14 +45,25 @@ document.querySelector('form').addEventListener('submit', event => {
     console.log(pass)
 
     if (email && pass) {
-        $.post(url,JSON.stringify(data),
-        function(data, textStatus, jqXHR)
-        {
-            if (data != "FAIL") {
+        fetch(url, {
+            method: 'POST', // or 'PUT'
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log('Success:', data);
+              if (data.response != "FAIL") {
+                console.log("Successful Login")
                 sessionStorage.setItem('userID', data.userid);
                 window.location.replace('./homepage.html');
-            }
-        })
+                }
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+        });
         
     } else {
         document.querySelector('#email').placeholder = "Enter an email.";

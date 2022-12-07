@@ -40,15 +40,15 @@ def login(request):
         ret = DDS_SQL.login(email)
         print(ret)
         if ret == None:
-            return HttpResponse("No matching users")
+            return JsonResponse({"response:" : "FAIL", "message:" : "No Matching Users", "userid" : None})
 
         userid = ret[0]
         hashedpassword = ret[1].encode("utf-8")
 
         if bcrypt.checkpw(password, hashedpassword):
-            return JsonResponse({"userid" : userid})
+            return JsonResponse({"response:" : "OK", "message:" : "Success", "userid" : userid})
         else:
-            return HttpResponse("Username or Password is wrong")
+            return JsonResponse({"response:" : "FAIL", "message:" : "Username or Password is wrong", "userid" : None})
         
 
 @csrf_exempt
@@ -159,5 +159,8 @@ def predict(request):
         
         return JsonResponse(prediction)
 
-
-
+@csrf_exempt
+def subscribe(request):
+    if request.method == 'POST':
+        json_data = json.loads(request.body)
+        

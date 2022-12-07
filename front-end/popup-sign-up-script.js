@@ -53,14 +53,22 @@ document.querySelector('form').addEventListener('submit', event => {
             data.password = pass;
 
             console.log(data)
-
-            $.post(url,JSON.stringify(data),
-            function(data, textStatus, jqXHR)
-            {
-                if (data != "FAIL") {
+            fetch(url, {
+                method: 'POST', // or 'PUT'
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                })
+                .then((data) => {
+                  console.log('Success:', data);
+                  if (data != "FAIL") {
                     window.location.replace('./signin-popup.html');
-                }
-            })
+                  }
+                })
+                .catch((error) => {
+                  console.error('Error:', error);
+            });
         }
     } else {
         document.getElementById('warning').innerHTML = "Please fill out every field!";
