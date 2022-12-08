@@ -118,11 +118,11 @@ span.price {
 
 <center><h2 style="color:white">Please fill out the following fields to add a new DDS subscription or to renew an existing one </h2></center>
 <center><p style="color:white"><i>All credit card information will be kept secure using the latest encryption and database maintenance practices.</i></p></center>
+<center><p style="color:white" id = "error"><i></i></p></center>
 <div class="row">
   <div class="col-75">
     <div class="container">
-      <form action="/action_page.php">
-      
+
         <div class="row">
           <div class="col-50">
             <h3>Billing Address</h3>
@@ -175,11 +175,9 @@ span.price {
           </div>
           
         </div>
-        <label>
-          <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
-        </label>
-        <button class="btn" id="confirm_payment"><a style="text-decoration:none;" href="accountpage.html">Confirm Payment</a></button>
-      </form>
+        <button class="btn" id="confirm_payment"><a style="text-decoration:none;">Confirm Payment</a></button>
+        <script src="subscribe.js"></script>
+
     </div>
   </div>
   <div class="col-25">
@@ -191,6 +189,5 @@ span.price {
     </div>
   </div>
 </div>
-
 </body>
 </html>

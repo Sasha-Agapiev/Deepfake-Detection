@@ -29,7 +29,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Helvetica", sans-serif}
 
 <!-- Header -->
 <header class="w3-container w3-purple w3-center" style="padding:128px 16px">
-  <h1 class="w3-margin w3-jumbo"><b> Welcome, <br>[USER'S NAME]</b></h1>
+  <h1 class="w3-margin w3-jumbo", id = "firstname">
 </header>
 
 <!-- First Grid -->
@@ -38,20 +38,19 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Helvetica", sans-serif}
     <div class="w3-twothird">
       <h1><b>Account Information</b></h1>
       <br>
-      <h5 style="color:blueviolet"> <b>Account Type:</b></h5><h5> [PREMIUM/BASIC] </h5>
+      <h5 style="color:blueviolet" id = "accounttype"> 
       <br>
-      <h5 style="color:blueviolet"> <b>Predictions Remaining:</b></h5><h5> [UNLIMITED/NUMBER] </h5>
+      <h5 style="color:blueviolet" id = "predictions_left"> 
       <br>
-      <h5 style="color:blueviolet"> <b>Websites You've Reported</b></h5><h5> [LIST OF SITES] </h5>
-      <br>
-      <h5 style="color:blueviolet"> <b>Websites Recently Reported by Others</b></h5><h5> [ LIST OF SITES / THIS FEATURE CAN BE ACCESSED WITH A PREMIUM ACCOUNT] </h5>
+      <h5 style="color:blueviolet" id = "userreports"> <b>Websites You've Reported</b></h5><h5></h5>
       <br>
       <h5 style="color:blueviolet"> <b>Website Warnings</b></h5><h5> [THIS FEATURE CAN BE ACCESSED WITH A PREMIUM ACCOUNT] </h5>
       <input type="button" style="background-color:blueviolet; border-radius:5px; border-color: blueviolet; color:white" id="toggle_warnings" value="Currently Off"></input>
       <script src="accountpage.js"></script>
       <br><h5 style="color:#f5c2e0"><i><b> With website warnings turned on, you will get a notification whenever you try to access a website that has been flagged for deepfake content. </b></i></h5>
       <br>
-      <h5 style="color:blueviolet"> <b>Subscription Status:</b></h5><h5> [DAYS REMAINING / YOU ARE CURRENTLY NOT SUBSCRIBED] </h5>
+      <h5 style="color:blueviolet" id = "status"> <b>Subscription Status:</b></h5>
+      <script src="accountpage.js"></script>
       <input type="button" style="background-color:blueviolet; border-radius:5px; border-color: blueviolet; color:white" id="cancel_sub" value="Cancel Subscription"></input>      <p id="cancel_sub_status"></p>
       <label id="areyousure" style="visibility: hidden">Are you sure you want to cancel your DDS subscription?</label>
       <button id="Cancel_Sub_Button" style="display: none; background-color:blueviolet; border-radius:5px; border-color: blueviolet; color:white"> Yes </button>
@@ -60,7 +59,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Helvetica", sans-serif}
       <br>
       <button style="background-color:blueviolet; border-radius:5px; border-color: blueviolet; color:white"><a href="subscribe.html" style="text-decoration: none;"> Purchase/Renew Subscription </a></button>
       <br>
-      <h5 style="color:#f5c2e0"><i><b> With a $2.99/month subscription plan, you can unlock premium account features 
+      <h5 style="color:#f5c2e0" id = "subscriptionprompt"><i><b> With a $2.99/month subscription plan, you can unlock premium account features 
         which gives you unlimited deepfake predictions, faster prediction times, access to 
         websites that have recently been flagged by other DDS users, and access to pop-up alerts 
         whenever you visit a website that has been flagged. Subscriptions can be cancelled at any time.</b></i></h5>

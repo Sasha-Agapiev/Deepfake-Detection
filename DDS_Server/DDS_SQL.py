@@ -4,7 +4,7 @@ import uuid
 cursor = connection.cursor()
 
 def login(email):
-    call = 'Select uid, password From "DDSystem"."User" Where email = %s Limit 1'
+    call = 'Select uid, password, firstname, subscribed, predictions, days_left From "DDSystem"."User" Where email = %s Limit 1'
     data = [email]
     cursor.execute(call, data)
     connection.commit()
@@ -73,6 +73,31 @@ def revoke_report(userid, domainname):
     x = cursor.execute(call, data)
     connection.commit()
 
+
+def has_reported(userid, domainname):
+    call = 'Select datereported, website From "DDSystem"."Reports" Where uid = %s and website = %s '
+    data = [userid, domainname]
+    x = cursor.execute(call, data)
+    connection.commit()
+    return cursor.fetchone()
+
+def subscribe(trans_no, uid, ccnum):
+    call = 'call "DDSystem".add_receipts(%s, %s, %s)'
+    data = [trans_no, uid, ccnum]
+    x = cursor.execute(call, data)
+    connection.commit()
+
+    call = 'call "DDSystem".subscribe(%s)'
+    data = [uid]
+    x = cursor.execute(call, data)
+    connection.commit()
+
+def unsubscribe(uid):
+    call = 'call "DDSystem".unsubscribe(%s)'
+    data = [uid]
+    x = cursor.execute(call, data)
+    connection.commit()
+    
 """
 testing
 

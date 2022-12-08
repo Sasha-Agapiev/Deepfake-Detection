@@ -57,7 +57,13 @@ document.querySelector('form').addEventListener('submit', event => {
               console.log('Success:', data);
               if (data.response != "FAIL") {
                 console.log("Successful Login")
-                sessionStorage.setItem('userID', data.userid);
+                sessionStorage.setItem('userID', data.userinfo.userid);
+                sessionStorage.setItem('firstname', data.userinfo.firstname);
+                sessionStorage.setItem('subscribed', data.userinfo.subscribed);
+                sessionStorage.setItem('predictons_left', data.userinfo.predictions_left);
+                sessionStorage.setItem('days_left', data.userinfo.days_left);
+                var reports = String(data.user_reports);
+                sessionStorage.setItem('user_reports', reports);
                 window.location.replace('./homepage.html');
                 }
             })

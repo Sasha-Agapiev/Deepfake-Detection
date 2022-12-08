@@ -40,15 +40,30 @@ def login(request):
         ret = DDS_SQL.login(email)
         print(ret)
         if ret == None:
-            return JsonResponse({"response:" : "FAIL", "message:" : "No Matching Users", "userid" : None})
+            return JsonResponse({"response:" : "FAIL", 
+                                "message:" : "No Matching Users", 
+                                "userid" : None})
 
         userid = ret[0]
         hashedpassword = ret[1].encode("utf-8")
-
+        firstname, subscribed, predictions_left, days_left = ret[2], ret[3], ret[4], ret[5]
         if bcrypt.checkpw(password, hashedpassword):
-            return JsonResponse({"response:" : "OK", "message:" : "Success", "userid" : userid})
+            user_reports = DDS_SQL.check_reports(userid)
+            print(user_reports)
+            return JsonResponse({"response:" : "OK", 
+                                 "message:" : "Success", 
+                                 "userinfo" : {"userid" : userid,
+                                               "firstname" : firstname,
+                                               "subscribed" : subscribed,
+                                               "predictions_left" : predictions_left,
+                                               "days_left" : days_left
+                                              },
+                                 "user_reports": user_reports
+                                 })
         else:
-            return JsonResponse({"response:" : "FAIL", "message:" : "Username or Password is wrong", "userid" : None})
+            return JsonResponse({"response:" : "FAIL", 
+                                 "message:" : "Username or Password is wrong", 
+                                 "userid" : None})
         
 
 @csrf_exempt
@@ -106,6 +121,10 @@ def report(request):
         #flag website or false flag report 
         try:
             if type_report == "flag" or type_report == "false_flag":
+                has_reported = DDS_SQL.has_reported(userid, domainname)
+                print(has_reported)
+                if has_reported != None:
+                    DDS_SQL.revoke_report(userid, domainname)
                 DDS_SQL.add_reports(userid, domainname, 1 if type_report == "flag" else -1)
             else:
                 DDS_SQL.revoke_report(userid, domainname)
@@ -163,4 +182,27 @@ def predict(request):
 def subscribe(request):
     if request.method == 'POST':
         json_data = json.loads(request.body)
+        ccnum = json_data["ccnum"]
+        userid = json_data["userid"]
+        transaction_id = str(uuid.uuid4())
+        (subscribed, _) =  DDS_SQL.check_subscription_and_predictions(userid)
+        print(subscribed)
+        if subscribed:
+            return JsonResponse({"msg":"You are already subscribed"})
+
+        DDS_SQL.subscribe(transaction_id, userid, ccnum)
+        return JsonResponse({"msg":"Success"})
+
+@csrf_exempt
+def unsubscribe(request):
+    if request.method == 'POST':
+        json_data = json.loads(request.body)
+        userid = json_data["userid"]
+        (subscribed, _) =  DDS_SQL.check_subscription_and_predictions(userid)
         
+        if not subscribed:
+            return JsonResponse({"msg":"You are not subscribed"})
+
+        DDS_SQL.unsubscribe(userid)
+        return JsonResponse({"msg":"Success"})
+
