@@ -62,9 +62,11 @@ document.querySelector('form').addEventListener('submit', event => {
                 sessionStorage.setItem('subscribed', data.userinfo.subscribed);
                 sessionStorage.setItem('predictons_left', data.userinfo.predictions_left);
                 sessionStorage.setItem('days_left', data.userinfo.days_left);
+                sessionStorage.setItem('reminded', data.userinfo.reminded);
                 var reports = String(data.user_reports);
                 sessionStorage.setItem('user_reports', reports);
                 window.location.replace('./homepage.html');
+                
                 }
             })
             .catch((error) => {

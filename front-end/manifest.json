@@ -12,6 +12,9 @@
    "action": {
    "default_title": "Deepfake Detection System",
    "default_popup": "signin-popup.html"
-   }
+   },
+   "permissions": [
+    "notifications"
+   ]
 
 }

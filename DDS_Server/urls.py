@@ -9,5 +9,5 @@ urlpatterns = [
     path('domainname_check', views.domainname_check, name='check'),
     path('predict', views.predict, name='predict'),
     path('subscribe', views.subscribe, name='subscribe'),
-    path('unsubscribe', views.unsubscribe, name='unsubscribe'),
+    path('user_update', views.user_update, name='user_update'),
 ]

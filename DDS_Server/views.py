@@ -46,7 +46,7 @@ def login(request):
 
         userid = ret[0]
         hashedpassword = ret[1].encode("utf-8")
-        firstname, subscribed, predictions_left, days_left = ret[2], ret[3], ret[4], ret[5]
+        firstname, subscribed, predictions_left, days_left, reminded= ret[2], ret[3], ret[4], ret[5], ret[6]
         if bcrypt.checkpw(password, hashedpassword):
             user_reports = DDS_SQL.check_reports(userid)
             print(user_reports)
@@ -56,7 +56,8 @@ def login(request):
                                                "firstname" : firstname,
                                                "subscribed" : subscribed,
                                                "predictions_left" : predictions_left,
-                                               "days_left" : days_left
+                                               "days_left" : days_left,
+                                               "reminded" : reminded
                                               },
                                  "user_reports": user_reports
                                  })
@@ -194,15 +195,22 @@ def subscribe(request):
         return JsonResponse({"msg":"Success"})
 
 @csrf_exempt
-def unsubscribe(request):
+def user_update(request):
     if request.method == 'POST':
         json_data = json.loads(request.body)
         userid = json_data["userid"]
+        request = json_data["request"]
+        
         (subscribed, _) =  DDS_SQL.check_subscription_and_predictions(userid)
         
         if not subscribed:
             return JsonResponse({"msg":"You are not subscribed"})
+            
+        if request == "unsubscribe": 
+            DDS_SQL.unsubscribe(userid)
+        else:
+            DDS_SQL.reminded(userid)
 
-        DDS_SQL.unsubscribe(userid)
         return JsonResponse({"msg":"Success"})
+
 

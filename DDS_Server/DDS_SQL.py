@@ -4,7 +4,7 @@ import uuid
 cursor = connection.cursor()
 
 def login(email):
-    call = 'Select uid, password, firstname, subscribed, predictions, days_left From "DDSystem"."User" Where email = %s Limit 1'
+    call = 'Select uid, password, firstname, subscribed, predictions, days_left, reminded From "DDSystem"."User" Where email = %s Limit 1'
     data = [email]
     cursor.execute(call, data)
     connection.commit()
@@ -97,7 +97,14 @@ def unsubscribe(uid):
     data = [uid]
     x = cursor.execute(call, data)
     connection.commit()
-    
+
+def reminded(uid):
+    call = 'Update "DDSystem"."User" Set reminded = true Where uid = %s'
+    data = [uid]
+    x = cursor.execute(call, data)
+    connection.commit()
+
+
 """
 testing
 

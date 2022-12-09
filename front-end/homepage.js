@@ -4,6 +4,22 @@ document.getElementById('requestReportRemove').addEventListener("click", openRem
 document.getElementById('submitReport').addEventListener("click", sendReportData)
 document.getElementById('submitRemoveReport').addEventListener("click", sendRemoveFlagData)
 
+
+//on load, check if reminded or not
+
+document.addEventListener("DOMContentLoaded", function() {
+  chrome.notifications.create(
+    {
+        type: "basic",
+        iconUrl: "images/1392.png",
+        title: "Notification",
+        message: "omg its john cena!",
+        silent: false
+    },
+    () => { })
+});
+
+
 function testing() {
   var inputfile = document.getElementById('Upload_Image');
   encodeImageFileAsURL(inputfile)

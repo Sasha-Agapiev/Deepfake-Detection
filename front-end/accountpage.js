@@ -43,8 +43,9 @@ document.addEventListener("DOMContentLoaded", function() {
         text += "<b>Date Reported:</b> " + date  + " <b>Domain Name:</b> " + site + " <b>Flag:</b> " + a_r +  "<br>";
     }
     document.getElementById('userreports').innerHTML =  '<b>Websites You\'ve Reported</b></h5>'+ text + '</h5>';
-    console.log(reports);
-
+    
+    
+    //subscription status
     var status;
 
     if (subscribed == 'false') {
@@ -66,7 +67,20 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     document.getElementById('status').innerHTML = '<b>Subscription Status:</b></h5><br>' + status;
    
-
+    //alert
+    var reminded = sessionStorage.getItem('reminded');
+    if (subscribed == "true" && days_left <= 7 && reminded == "false"){
+        chrome.notifications.create(
+            {
+                type: "basic",
+                iconUrl: "images/dds_icon.png",
+                title: "Subscription Renewal",
+                message: "Your subscription is expiring in less than 7 days! Renew with us to continue detecting Deepfakes",
+                silent: false
+            },
+            () => { });
+        sendReminded();
+    }
   });
 
 
@@ -104,7 +118,8 @@ function sendCancelSubscription(){
     document.getElementById('Keep_Sub_Button').style.display = 'none';  
     var data = {};
     data.userid = sessionStorage.getItem('userID');
-    fetch('http://127.0.0.1:8000/DDS_Server/unsubscribe', {
+    data.request = "unsubscribe";
+    fetch('http://127.0.0.1:8000/DDS_Server/user_update', {
         method: 'POST', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
@@ -117,6 +132,27 @@ function sendCancelSubscription(){
           sessionStorage.setItem('subscribed', 'false');
           window.location.replace('./accountpage.html');
 
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+    });
+}
+
+function sendReminded(){
+    
+    var data = {};
+    data.userid = sessionStorage.getItem('userID');
+    data.request = "reminded";
+    fetch('http://127.0.0.1:8000/DDS_Server/user_update', {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then((data) => {
+          console.log('Success:', data);
+          sessionStorage.setItem('reminded', 'true');
         })
         .catch((error) => {
           console.error('Error:', error);

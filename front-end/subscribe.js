@@ -33,6 +33,7 @@ function sendConfirmPayment(){
               var resp = String(data.msg);
               if (resp == "Success") {
                 sessionStorage.setItem('subscribed', 'true');
+                sessionStorage.setItem('days_left', 30);
                 window.location.replace('./accountpage.html');
               }
               else {
