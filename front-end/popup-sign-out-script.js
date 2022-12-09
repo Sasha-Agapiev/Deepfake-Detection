@@ -20,7 +20,8 @@ button.addEventListener('click', () => {
 	chrome.runtime.sendMessage({ message: 'logout' }, 
 		function (response) {
 			if (response === 'success') {
-                sessionStorage.removeItem("userid");
+                sessionStorage.clear();
+                localStorage.clear();
 				window.location.replace('./signin-popup.html');
             }
         }

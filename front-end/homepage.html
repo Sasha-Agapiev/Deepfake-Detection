@@ -12,6 +12,31 @@
 body,h1,h2,h3,h4,h5,h6 {font-family: "Helvetica", sans-serif}
 .w3-bar,h1,button {font-family: "Helvetica", serif}
 .fa-anchor,.fa-coffee {font-size:200px}
+
+button {
+            font-size: 100%;
+            background-color: #f5c2e0;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+            color: black;
+            font-family: helvetica;
+            font-weight: bold;
+            transition-duration: 0.3s;
+            padding: 10px;
+            margin-top: 1%;
+        }
+
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    display: inline-block;
+    cursor: pointer;
+    background-image: url('images/upload_icon.png');
+    background-size: 100% 50%;
+    background-repeat: no-repeat;
+}
 </style>
 </head>
 <body>
@@ -35,31 +60,18 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Helvetica", sans-serif}
 
   <img src="" height="200" alt=" "\/>
   <p id = "display"> Waiting for Image... </p>
-  <!--
-  <script>
-    $(document).ready(function(){
-        $("#Upload_Image").on('propertychange change',function(){
-          encodeImageFileAsURL(this, function(content) {
-              var data = {};
-              data.userid = sessionStorage.getItem('userID');
-              data.picture = content; 
-              sendData(data, 'http://127.0.0.1:8000/DDS_Server/predict');
-            });
-        });
-    });
-  </script>
-  -->
 
-  <label for="Upload_Image" class="w3-button w3-white w3-padding-large w3-large w3-margin-top">Upload An Image</label>
+  <label for="Upload_Image" class="w3-button w3-white w3-padding-large w3-small w3-margin-top">Upload An Image</label>
+  
   <br>
-  <button id="reportAWebsite" class="w3-button w3-white w3-padding-large w3-large w3-margin-top">Report a Website</button>
+  <button id="reportAWebsite">Report a Website</button>
   <br>
   <div> <label id = "report_display" style="visibility: hidden"> Website successfully reported. </label> </div>
   <form  id="reportForm" style="display: none" ><br><br>
-    <input type="url" id="reported_website" pattern="https://.*" placeholder="https://example.com">
+    <input type="url" id="reported_website" pattern="https://.*">
   </form>
-  <button id="submitReport" class="w3-button w3-white w3-padding-large w3-large w3-margin-top" style="display: none">Submit</button>
-  <button id="cancelReport" class="w3-button w3-white w3-padding-large w3-large w3-margin-top" style="display: none">Cancel</button>
+  <button id="submitReport" style="display: none">Submit</button>
+  <button id="cancelReport" style="display: none">Cancel</button>
 
 </header>
 
@@ -105,7 +117,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Helvetica", sans-serif}
       <button id="requestReportRemove"><b>Request Website Flag Removal</b></button>
       <label id = "remove_flag_display" style="visibility: hidden"> Website flag removal request successfully submitted. </label>
       <form  id="removeReportForm"  style="display: none" ><br><br>
-        <input type="url" id="removeReportWebsite" pattern="https://.*" placeholder="https://example.com">
+        <input type="url" id="removeReportWebsite" pattern="https://.*" >
       </form>
       <br>
       <button id="submitRemoveReport" style="display: none">Submit Report Removal Request</button>

@@ -49,7 +49,6 @@ def login(request):
         firstname, subscribed, predictions_left, days_left, reminded= ret[2], ret[3], ret[4], ret[5], ret[6]
         if bcrypt.checkpw(password, hashedpassword):
             user_reports = DDS_SQL.check_reports(userid)
-            print(user_reports)
             return JsonResponse({"response:" : "OK", 
                                  "message:" : "Success", 
                                  "userinfo" : {"userid" : userid,
@@ -124,14 +123,15 @@ def report(request):
         try:
             if type_report == "flag" or type_report == "false_flag":
                 has_reported = DDS_SQL.has_reported(userid, domainname)
-                print(has_reported)
                 if has_reported != None:
                     DDS_SQL.revoke_report(userid, domainname)
                 DDS_SQL.add_reports(userid, domainname, 1 if type_report == "flag" else -1)
             else:
                 DDS_SQL.revoke_report(userid, domainname)
-            return  JsonResponse({"msg": "Success"})
-        except:
+            user_reports = DDS_SQL.check_reports(userid)
+            return  JsonResponse({"msg": "Success", "user_reports": user_reports})
+        except Exception as err:
+            print(err)
             return  JsonResponse({"msg": "Fail"})
 
 
@@ -149,7 +149,7 @@ def predict(request):
         
         (subscribed, num_predictions) = DDS_SQL.check_subscription_and_predictions(userid)
         if not subscribed and num_predictions == 0:
-            return JsonResponse({"prediction" : "No predictions left"})
+            return JsonResponse({"prediction" : "No predictions left", "predictions_left" : num_predictions})
         
         
         filetype, imagedata = imagedata.split(";base64,")
@@ -168,8 +168,6 @@ def predict(request):
 
         p = pred(filename)
 
-        prediction = {"prediction" : p}
-
         # Flush temp/
         files = glob.glob("temp/*")
         for f in files:
@@ -178,6 +176,8 @@ def predict(request):
         if not subscribed:
             DDS_SQL.update_predictions(userid)
         
+        prediction = {"prediction" : p, "predictions_left" : num_predictions-1}
+
         return JsonResponse(prediction)
 
 @csrf_exempt

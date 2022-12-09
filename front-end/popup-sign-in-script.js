@@ -41,8 +41,6 @@ document.querySelector('form').addEventListener('submit', event => {
     var data = {};
     data.email = email;
     data.password = pass;
-    console.log(email)
-    console.log(pass)
 
     if (email && pass) {
         fetch(url, {
@@ -65,6 +63,7 @@ document.querySelector('form').addEventListener('submit', event => {
                 sessionStorage.setItem('reminded', data.userinfo.reminded);
                 var reports = String(data.user_reports);
                 sessionStorage.setItem('user_reports', reports);
+
                 window.location.replace('./homepage.html');
                 
                 }

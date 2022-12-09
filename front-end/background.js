@@ -14,6 +14,8 @@ chrome.tabs.onUpdated.addListener(async function () {
 });
 
 */
+
+
 async function getTab() {
     let queryOptions = { active: true, currentWindow: true };
     let tabs = await chrome.tabs.query(queryOptions);
@@ -29,6 +31,9 @@ chrome.tabs.onUpdated.addListener(function () {
             var data = {};
             data.domainname = domainname;
             console.log(data.domainname);
+            chrome.storage.local.set({"currentDomain": domainname }).then(() => {
+              console.log("Value is set to " + domainname);
+            });
             fetch('http://127.0.0.1:8000/DDS_Server/domainname_check', {
                 method: 'POST', // or 'PUT'
                 headers: {
@@ -43,10 +48,10 @@ chrome.tabs.onUpdated.addListener(function () {
                     chrome.notifications.create(
                         {
                             type: "basic",
-                            iconUrl: "images/1392.png",
-                            title: "Notification",
-                            message: "omg its john cena!",
-                            silent: false
+                            iconUrl: "images/warning.png",
+                            title: "Danger!",
+                            message: "This website has been flagged to contain Deepfakes!",
+                            silent: true
                         });
                   }
                 })

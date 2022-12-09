@@ -40,7 +40,14 @@ document.addEventListener("DOMContentLoaded", function() {
         date = reports_arr[i];
         site = reports_arr[i+1];
         a_r = reports_arr[i+2];
-        text += "<b>Date Reported:</b> " + date  + " <b>Domain Name:</b> " + site + " <b>Flag:</b> " + a_r +  "<br>";
+        var flag_or_not = "";
+        if (a_r == 1){
+            flag_or_not = "Flagged For Deepfake";
+        }
+        else{
+            flag_or_not = "Contains False Flag ";
+        }
+        text += "<b>Date Reported:</b> " + date  + " <b>Domain Name:</b> " + site + " <b>Type of Report:</b> " + flag_or_not +  "<br>";
     }
     document.getElementById('userreports').innerHTML =  '<b>Websites You\'ve Reported</b></h5>'+ text + '</h5>';
     

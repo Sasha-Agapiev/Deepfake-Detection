@@ -16,7 +16,6 @@ function testing() {
 }
 
 function encodeImageFileAsURL(element) { // We pass a callback as parameter
-    console.log("hello");
     var preview = document.querySelector('img')
     var file = element.files[0];
     var reader = new FileReader();
@@ -28,7 +27,6 @@ function encodeImageFileAsURL(element) { // We pass a callback as parameter
       var data = {};
       data.userid = sessionStorage.getItem('userID');
       data.picture = base64Image; 
-      console.log(data);
       sendData(data, 'http://127.0.0.1:8000/DDS_Server/predict');
   }
     reader.readAsDataURL(file);
@@ -50,6 +48,8 @@ function sendData(data, url) {
           console.log('Success:', data);
           P = data.prediction;
           document.getElementById('display').innerHTML = "Prediction: " + P;
+          sessionStorage.setItem('predictons_left', data.predictions_left);
+
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -63,6 +63,11 @@ function openReportForm(){
     document.getElementById('submitReport').style.display = '';
     document.getElementById('reportAWebsite').style.display = 'none';
     document.getElementById('report_display').style.visibility = 'hidden';
+    var input = document.getElementById ("reported_website");
+    chrome.storage.local.get(["currentDomain"]).then((result) => {
+      input.placeholder = result.currentDomain;
+    });
+    
 }
 
 
@@ -80,6 +85,10 @@ function openRemoveReportForm(){
     document.getElementById('removeReportForm').style.display = '';
     document.getElementById('submitRemoveReport').style.display = '';    
     document.getElementById('requestReportRemove').style.display = 'none';
+    var input = document.getElementById ("removeReportWebsite");
+    chrome.storage.local.get(["currentDomain"]).then((result) => {
+      input.placeholder = result.currentDomain;
+    });
 }
 // Cancel option for report false flag
 function cancelRemoveReport(){
@@ -107,8 +116,10 @@ function sendReportData(){
         },
         body: JSON.stringify(data),
       })
+        .then((response) => response.json())
         .then((data) => {
-          console.log('Success:', data);
+          var reports = String(data.user_reports);
+          sessionStorage.setItem('user_reports', reports);
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -136,7 +147,8 @@ function sendRemoveFlagData(){
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log('Success:', data);
+          var reports = String(data.user_reports);
+          sessionStorage.setItem('user_reports', reports);
         })
         .catch((error) => {
           console.error('Error:', error);
