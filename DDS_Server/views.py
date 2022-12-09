@@ -97,13 +97,14 @@ def domainname_check(request):
         ret = DDS_SQL.domainname_check(domainname)
         #domainname does not exist in database
         if ret == None:
-            return HttpResponse("FAIL")
+            return JsonResponse({"msg": "false"})
+
         else:
             #server if flagged
             if ret[0] == True:
-                return HttpResponse("TRUE")
+                return JsonResponse({"msg": "true"})
             else:
-                return HttpResponse("FALSE")
+                return JsonResponse({"msg": "false"})
 
 @csrf_exempt
 def report(request):
@@ -129,9 +130,9 @@ def report(request):
                 DDS_SQL.add_reports(userid, domainname, 1 if type_report == "flag" else -1)
             else:
                 DDS_SQL.revoke_report(userid, domainname)
-            return HttpResponse("OK")
+            return  JsonResponse({"msg": "Success"})
         except:
-            return HttpResponse("FAIL")
+            return  JsonResponse({"msg": "Fail"})
 
 
 letters = string.ascii_lowercase

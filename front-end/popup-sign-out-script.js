@@ -19,10 +19,10 @@ button.addEventListener('mouseleave', () => {
 button.addEventListener('click', () => {
 	chrome.runtime.sendMessage({ message: 'logout' }, 
 		function (response) {
-			if (response === 'success')
+			if (response === 'success') {
                 sessionStorage.removeItem("userid");
 				window.location.replace('./signin-popup.html');
             }
-                
- 	});
-});
+        }
+    );
+})

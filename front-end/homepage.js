@@ -7,17 +7,7 @@ document.getElementById('submitRemoveReport').addEventListener("click", sendRemo
 
 //on load, check if reminded or not
 
-document.addEventListener("DOMContentLoaded", function() {
-  chrome.notifications.create(
-    {
-        type: "basic",
-        iconUrl: "images/1392.png",
-        title: "Notification",
-        message: "omg its john cena!",
-        silent: false
-    },
-    () => { })
-});
+
 
 
 function testing() {
@@ -75,11 +65,28 @@ function openReportForm(){
     document.getElementById('report_display').style.visibility = 'hidden';
 }
 
+
+// Cancel option for report website form
+function cancelReport(){
+  document.getElementById('reportForm').style.display = 'none';
+  document.getElementById('cancelReport').style.display = 'none';
+  document.getElementById('submitReport').style.display = 'none';
+  document.getElementById('reportAWebsite').style.display = '';
+  document.getElementById('report_display').style.visibility = 'hidden';
+}
+
 function openRemoveReportForm(){
     document.getElementById('remove_flag_display').style.visibility = 'hidden';
     document.getElementById('removeReportForm').style.display = '';
     document.getElementById('submitRemoveReport').style.display = '';    
     document.getElementById('requestReportRemove').style.display = 'none';
+}
+// Cancel option for report false flag
+function cancelRemoveReport(){
+  document.getElementById('requestReportRemove').style.display = '';
+  document.getElementById('cancelRemoveReport').style.display = 'none';
+  document.getElementById('submitRemoveReport').style.display = 'none';
+  document.getElementById('removeReportForm').style.display = 'none';
 }
 
 // For reporting a website

@@ -1,7 +1,7 @@
-document.getElementById('cancel_sub').addEventListener("click", openCancelSubscriptionForm);
 document.getElementById('toggle_warnings').addEventListener("click", toggle_warnings);
-document.getElementById('Keep_Sub_Button').addEventListener("click", keepSubButtonForm);
 document.getElementById('Cancel_Sub_Button').addEventListener("click", sendCancelSubscription);
+document.getElementById('Keep_Sub_Button').addEventListener("click", keepSubButtonForm);
+document.getElementById('cancel_sub').addEventListener("click", openCancelSubscriptionForm);
 document.addEventListener("DOMContentLoaded", function() {
 
     //firstname
@@ -83,10 +83,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-
-if(cancel_subscription_button){
-    cancel_subscription_button.addEventListener("click", confirm_cancel_subscription);
-}
 
 // toggles warnings button text (on/off) on user click 
 function toggle_warnings(){

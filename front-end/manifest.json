@@ -14,7 +14,11 @@
    "default_popup": "signin-popup.html"
    },
    "permissions": [
-    "notifications"
-   ]
+    "notifications",
+    "tabs"
+   ],
+   "background": {
+    "service_worker": "background.js"
+   }
 
 }
